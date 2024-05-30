@@ -1,0 +1,6 @@
+**/.env
+sample_notes/
+*.md
+znotes/dist/
+**/__pycache__/
+**/*.egg-info/
