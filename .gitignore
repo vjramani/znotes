@@ -4,3 +4,4 @@ test-files/
 znotes/dist/
 **/__pycache__/
 **/*.egg-info/
+*.kdl
