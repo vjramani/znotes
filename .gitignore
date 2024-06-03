@@ -1,7 +1,10 @@
+.DS_Store
+**/__pycache__/
 **/.env
+*.py[cod]
+*$py.class
 sample_notes/
 test-files/
 znotes/dist/
-**/__pycache__/
 **/*.egg-info/
 *.kdl
