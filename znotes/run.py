@@ -1,4 +1,4 @@
-from md import *
+from read_data import *
 
 # test_note = "../sample_notes/note_1715024200.md"
 #

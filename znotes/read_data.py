@@ -24,7 +24,7 @@ value = """
 
 # read the tags from the tag section of a given note
 def read_note_tags(fhandle):
-    print("read_note_tags")
+    # print("read_note_tags")
     skip_till_line_start(fhandle, "tags:")
     val = read_till_line_start(fhandle, "---")
     val = val.replace("\n","").replace("\r", "").replace("tags:","").replace(" ","")
@@ -32,8 +32,16 @@ def read_note_tags(fhandle):
 
 # read all tags from the global list of tags
 def read_tags_and_references(fhandle):
-    print("read_tags_and_references")
-    return "none"
+    # print("read_tags_and_references")
+    tr = {}
+    skip_till_line_start(fhandle, "- ")
+    while line := fhandle.readline():
+        t = line.replace("- ", "").strip()
+        links = read_till_line_start(fhandle, "- ").replace("\t-", "").split("\n")
+        links = list(map(lambda x: x.strip(), filter(None, links)))
+        tr[t] = links
+
+    return tr
 
 
 def skip_till_line_start(fhandle, sentinel):
@@ -45,10 +53,13 @@ def skip_till_line_start(fhandle, sentinel):
     fhandle.seek(last_pos)
 
 def read_till_line_start(fhandle, sentinel):
+    last_pos = fhandle.tell()
     fcontent = ""
     while line := fhandle.readline():
         if line.find(sentinel) == 0:
             break;
         fcontent += line
+        last_pos = fhandle.tell()
+    fhandle.seek(last_pos)
 
     return fcontent
