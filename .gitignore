@@ -3,9 +3,7 @@
 **/.env
 *.py[cod]
 *$py.class
-sample_notes/
-test-files/
-out_notes/
+vault/
 znotes/dist/
 **/*.egg-info/
 *.kdl
