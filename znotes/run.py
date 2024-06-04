@@ -1,5 +1,4 @@
 from main import *
-import os.path
 
 # test_note = "../sample_notes/note_1715024200.md"
 #
@@ -26,10 +25,10 @@ tag_index_file = "../tag_index.md"
 # Write the tag index data to the tag_index file
 
 tag_index = {}
-if os.path.exists(tag_index_file):
-    file_obj = open(tag_index_file, 'r')
-    tag_index = read_tags_and_references(file_obj)
-    file_obj.close()
+fobj = read_file(tag_index_file)
+if fobj is not None:
+    tag_index = read_tags_and_references(fobj)
+    fobj.close()
 
 print(f"tag_index: {tag_index}")
 

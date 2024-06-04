@@ -1,52 +1,6 @@
 
-
-
-
-
-
-
-
-
-
-
-
-
 if __name__ == "__main__":
     pass
-
-
-
-
-
-
-
-
-
-
-
-
-# import markdown_to_json
-#
-# value = """
-# # Nested List
-#
-# - Item 1
-#     - Item 1.1
-# - Item 2
-#     - Item 2.1
-#     - Item 2.2
-#         - Item 2.2.1
-# """
-
-# The simple way:
-# dictified = markdown_to_json.dictify(value)
-# assert dictified == {'Nested List': ['Item 1', ['Item 1.1'], 'Item 2']}
-# print(dictified)
-
-# Or, if you want a json string
-# jsonified = markdown_to_json.jsonify(value)
-# assert jsonified == """{"Nested List": ["Item 1", ["Item 1.1"], "Item 2"]}"""
-# print(jsonified)
 
 
 # read the tags from the tag section of a given note
@@ -101,10 +55,31 @@ def add_note_ref(tag_index, note_ref, tags):
 
 def update_tag_index(tag_index, notes_list):
     for n in notes_list:
-        fobj = open(n, 'r')
+        fobj = read_file_or_fail(n)
         ntags = read_note_tags(fobj)
         fobj.close()
         add_note_ref(tag_index, n, ntags) 
 
     return tag_index
+
+def read_file(uri):
+    import os.path
+    if os.path.exists(uri):
+        fobj = open(uri, 'r')
+        return fobj
+    return None
+
+def read_file_or_fail(uri):
+    ret = read_file(uri)
+    if ret is not None:
+        return ret
+    raise Exception(f"File not Found at {uri}");
+
+
+
+
+
+
+
+
 
