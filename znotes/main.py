@@ -45,12 +45,15 @@ def read_till_line_start(fhandle, sentinel):
 
     return fcontent
 
+def create_note_ref_view(note_ref):
+    n = extract_file_name_from_path(note_ref)
+    return "[{n}]({note_ref})".format(n=n, note_ref=note_ref)
+
 def add_note_ref(tag_index, note_ref, tags):
     for t in tags:
         if t not in tag_index.keys():
             tag_index[t] = set()
-
-        tag_index[t].add(note_ref);
+        tag_index[t].add(create_note_ref_view(note_ref));
     return tag_index
 
 def update_tag_index(tag_index, notes_list):
@@ -62,20 +65,41 @@ def update_tag_index(tag_index, notes_list):
 
     return tag_index
 
-def read_file(uri):
+def read_file(path):
     import os.path
-    if os.path.exists(uri):
-        fobj = open(uri, 'r')
+    if os.path.exists(path):
+        fobj = open(path, 'r')
         return fobj
     return None
 
-def read_file_or_fail(uri):
-    ret = read_file(uri)
+def read_file_or_fail(path):
+    ret = read_file(path)
     if ret is not None:
         return ret
     raise Exception(f"File not Found at {uri}");
 
 
+def extract_file_name_from_path(path):
+    i0 = path.rfind('/')+1
+    i1 = path.rfind('.md')
+    fn = path[i0:i1]
+    return fn
+
+
+TAG_INDEX_HEADER = '''
+# Tag Index
+---
+
+'''
+def write_tag_index(tag_index, path):
+    fobj = open(path, 'w')
+    fobj.writelines(TAG_INDEX_HEADER)
+    for t in tag_index:
+        fobj.write(f"- {t}\n")
+        for l in tag_index[t]:
+            fobj.write(f"\t- {l}")
+            fobj.write("\n")
+    fobj.close()
 
 
 
