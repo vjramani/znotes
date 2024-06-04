@@ -5,6 +5,7 @@
 *$py.class
 sample_notes/
 test-files/
+out_notes/
 znotes/dist/
 **/*.egg-info/
 *.kdl
