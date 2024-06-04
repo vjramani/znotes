@@ -12,14 +12,13 @@ def get_tag_index_path():
 
 def get_note_paths():
     import os
-    notes_folder = "{vault_root}{notes_path}".format(vault_root = __VAULT_ROOT__, notes_path = __VAULT_NOTES__)
-    lf = [notes_folder+f.name for f in os.scandir(notes_folder) if f.is_file()]
+    notes_folder = "{notes_path}".format(notes_path = __VAULT_NOTES__)
+    lf = [notes_folder+f.name for f in os.scandir(__VAULT_ROOT__+notes_folder) if f.is_file()]
 
     return lf
 
 # read the tags from the tag section of a given note
 def read_note_tags(fhandle):
-    # print("read_note_tags")
     skip_till_line_start(fhandle, "tags:")
     val = read_till_line_start(fhandle, "---")
     val = val.replace("\n","").replace("\r", "").replace("tags:","").replace(" ","")
@@ -27,7 +26,6 @@ def read_note_tags(fhandle):
 
 # read all tags from the global list of tags
 def read_tags_and_references(fhandle):
-    # print("read_tags_and_references")
     tr = {}
     skip_till_line_start(fhandle, "- ")
     while line := fhandle.readline():
@@ -72,7 +70,7 @@ def add_note_ref(tag_index, note_ref, tags):
 
 def update_tag_index(tag_index, notes_list):
     for n in notes_list:
-        fobj = read_file_or_fail(n)
+        fobj = read_file_or_fail(__VAULT_ROOT__+n)
         ntags = read_note_tags(fobj)
         fobj.close()
         add_note_ref(tag_index, n, ntags) 
