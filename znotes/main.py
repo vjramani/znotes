@@ -1,7 +1,21 @@
+__VAULT_ROOT__ = "../vault/"
+__VAULT_NOTES__ = "atomic-notes/"
+__NOTE_TEMPLATE__ = "utils/note-template.md"
+__TAG_INDEX__ = "utils/tag_index.md"
 
 if __name__ == "__main__":
     pass
 
+
+def get_tag_index_path():
+    return "{vault_root}{tag_index_path}".format(vault_root = __VAULT_ROOT__, tag_index_path = __TAG_INDEX__)
+
+def get_note_paths():
+    import os
+    notes_folder = "{vault_root}{notes_path}".format(vault_root = __VAULT_ROOT__, notes_path = __VAULT_NOTES__)
+    lf = [notes_folder+f.name for f in os.scandir(notes_folder) if f.is_file()]
+
+    return lf
 
 # read the tags from the tag section of a given note
 def read_note_tags(fhandle):
