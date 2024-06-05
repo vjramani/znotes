@@ -33,22 +33,39 @@ from main import *
 # For each tag append a reference to the note to the list
 # Write the tag index data to the tag_index file
 
-notes_list = get_note_paths()
-tag_index_file = get_tag_index_path()
-tag_index = {}
-fobj = read_file(tag_index_file)
-if fobj is not None:
-    tag_index = read_tags_and_references(fobj)
-    fobj.close()
-
-tag_index = update_tag_index(tag_index, notes_list)
-
-write_tag_index(tag_index, tag_index_file)
-
-for t in tag_index:
-    print(f"Tag: {t}")
-    for r in tag_index[t]:
-        print(f"    {r}")
+# notes_list = get_note_paths()
+# tag_index_file = get_tag_index_path()
+# tag_index = {}
+# fobj = read_file(tag_index_file)
+# if fobj is not None:
+#     tag_index = read_tags_and_references(fobj)
+#     fobj.close()
+#
+# tag_index = update_tag_index(tag_index, notes_list)
+#
+# write_tag_index(tag_index, tag_index_file)
+#
+# for t in tag_index:
+#     print(f"Tag: {t}")
+#     for r in tag_index[t]:
+#         print(f"    {r}")
 
 
 # print(get_note_paths())
+
+import subprocess
+import time
+
+subprocess.call(['nvim', '+7', '../vault/utils/note-template.md'])
+time.sleep(10)
+print("done")
+
+
+
+
+
+
+
+
+
+
