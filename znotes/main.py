@@ -1,11 +1,26 @@
+import typer
+
+
 __VAULT_ROOT__ = "../vault/"
 __VAULT_NOTES__ = "atomic-notes/"
 __NEW_NOTE__ = "atomic-notes/"
 __NOTE_TEMPLATE__ = "utils/note-template.md"
 __TAG_INDEX__ = "utils/tag_index.md"
 
+
+app = typer.Typer()
+
+
+@app.command()
+def newnote(title: str):
+    create_new_note_from_template(title)
+
+@app.command()
+def updatetags():
+    build_and_update_tag_index()
+
 if __name__ == "__main__":
-    pass
+    app()
 
 def build_and_update_tag_index():
     notes_list = get_note_paths()
@@ -19,16 +34,14 @@ def build_and_update_tag_index():
     tag_index = update_tag_index(tag_index, notes_list)
     write_tag_index(tag_index, tag_index_file)
 
-def open_note_for_editing(path):
-    import subprocess
-    subprocess.call(['nvim', '+7', path])
-
-
 def create_new_note_from_template(title):
     nn_content = create_new_note(title)
     nn_path = write_new_note(title, nn_content)
     open_note_for_editing(nn_path)
 
+def open_note_for_editing(path):
+    import subprocess
+    subprocess.call(['nvim', '+7', path])
 
 def get_tag_index_path():
     return f"{__VAULT_ROOT__}{__TAG_INDEX__}"
